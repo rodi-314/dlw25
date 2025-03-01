@@ -2,6 +2,8 @@
 
 This project was completed for the Deep Learning Week '25 hackathon. For more information, please view the full README [here](<BioWatch README.pdf>)!
 
+![DLW '25 Pitch Deck](https://github.com/user-attachments/assets/222d8ff9-68e7-4b50-8ad1-358e6dfa014b)
+
 ## 1 | Hackathon Problem Statement
 ### Track 1: Healthcare 
 
@@ -30,7 +32,5 @@ Leveraging on the myriad of data that smartwatches provide to users, we aim to c
 | Stroke         | 97.7%                          | 95.1%               | 100%                 |
 | Heart Disease | 83%                            | 85%                 | 50%                  |
 | Sleep Disorder | 86%                            | 87%                 | 85%                  |
-
-![DLW '25 Pitch Deck](https://github.com/user-attachments/assets/222d8ff9-68e7-4b50-8ad1-358e6dfa014b)
 
 
