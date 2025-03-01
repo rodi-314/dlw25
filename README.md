@@ -31,9 +31,5 @@ Leveraging on the myriad of data that smartwatches provide to users, we aim to c
 | Heart Disease | 83%                            | 85%                 | 50%                  |
 | Sleep Disorder | 86%                            | 87%                 | 85%                  |
 
-
-![image_2025-03-02_02-14-32](https://github.com/user-attachments/assets/7d65b921-411d-4bc3-8804-3444f4d23aec)
-
-![image](https://github.com/user-attachments/assets/13fb4b1b-5073-4fdb-831b-0e85cbbb4b5a)
-
-
+<img src="[image-url](https://github.com/user-attachments/assets/7d65b921-411d-4bc3-8804-3444f4d23aec)" alt="Alt Text" width="300" height="300">
+<img src="[image-url](https://github.com/user-attachments/assets/13fb4b1b-5073-4fdb-831b-0e85cbbb4b5a)" alt="Alt Text" width="300" height="600">
