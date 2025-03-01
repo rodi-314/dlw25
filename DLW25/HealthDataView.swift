@@ -18,8 +18,6 @@ class HealthDataViewModel: ObservableObject {
     @Published var activeEnergy: Double?
     @Published var workoutsCount: Int?
     @Published var exerciseMinutes: Double?
-    @Published var standMinutes: Double?
-    @Published var standHours: Double?
     @Published var steps: Double?
     @Published var walkingRunningDistance: Double?
     @Published var flightsClimbed: Double?
@@ -52,6 +50,27 @@ class HealthDataViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if success {
                     self.fetchBasicMetrics()
+                    // Start all observers for real-time updates.
+                    self.hkManager.startAllObservers(handlers: [
+                        self.hkManager.basalEnergyType: { newValue in self.restingEnergy = newValue },
+                        self.hkManager.activeEnergyType: { newValue in self.activeEnergy = newValue },
+                        self.hkManager.exerciseTimeType: { newValue in self.exerciseMinutes = newValue },
+                        self.hkManager.stepCountType: { newValue in self.steps = newValue },
+                        self.hkManager.distanceWalkingRunningType: { newValue in self.walkingRunningDistance = newValue },
+                        self.hkManager.flightsClimbedType: { newValue in self.flightsClimbed = newValue },
+                        self.hkManager.bodyTemperatureType: { newValue in self.bodyTemperature = newValue },
+                        self.hkManager.weightType: { newValue in self.weight = newValue },
+                        self.hkManager.heightType: { newValue in self.height = newValue },
+                        self.hkManager.bmiType: { newValue in self.bmi = newValue },
+                        self.hkManager.bodyFatPercentageType: { newValue in self.bodyFatPercentage = newValue },
+                        self.hkManager.leanBodyMassType: { newValue in self.leanBodyMass = newValue },
+                        self.hkManager.environmentalSoundType: { newValue in self.environmentalSoundLevels = newValue },
+                        self.hkManager.headphoneAudioType: { newValue in self.headphoneAudioLevels = newValue },
+                        self.hkManager.heartRateType: { newValue in self.currentHeartRate = newValue },
+                        self.hkManager.restingHRType: { newValue in self.restingHeartRate = newValue },
+                        self.hkManager.hrvType: { newValue in self.heartRateVariability = newValue },
+                        self.hkManager.vo2MaxType: { newValue in self.cardioFitness = newValue }
+                    ])
                 } else {
                     print("Authorization error: \(String(describing: error))")
                 }
@@ -60,7 +79,6 @@ class HealthDataViewModel: ObservableObject {
     }
     
     func fetchBasicMetrics() {
-        // Fetch biological sex and age
         do {
             let bioSex = try hkManager.healthStore.biologicalSex()
             self.sex = bioSex.biologicalSex.stringRepresentation
@@ -82,35 +100,7 @@ class HealthDataViewModel: ObservableObject {
     }
     
     func fetchAllMetrics() {
-        // Activity
-        hkManager.fetchBasalEnergy { value in DispatchQueue.main.async { self.restingEnergy = value } }
-        hkManager.fetchActiveEnergy { value in DispatchQueue.main.async { self.activeEnergy = value } }
-        hkManager.fetchWorkoutsCount { value in DispatchQueue.main.async { self.workoutsCount = value } }
-        hkManager.fetchExerciseMinutes { value in DispatchQueue.main.async { self.exerciseMinutes = value } }
-        hkManager.fetchSteps { value in DispatchQueue.main.async { self.steps = value } }
-        hkManager.fetchWalkingRunningDistance { value in DispatchQueue.main.async { self.walkingRunningDistance = value } }
-        hkManager.fetchFlightsClimbed { value in DispatchQueue.main.async { self.flightsClimbed = value } }
-        
-        // Body Measurements
-        hkManager.fetchLatestBodyTemperature { value in DispatchQueue.main.async { self.bodyTemperature = value } }
-        hkManager.fetchWeight { value in DispatchQueue.main.async { self.weight = value } }
-        hkManager.fetchHeight { value in DispatchQueue.main.async { self.height = value } }
-        hkManager.fetchBMI { value in DispatchQueue.main.async { self.bmi = value } }
-        hkManager.fetchBodyFatPercentage { value in DispatchQueue.main.async { self.bodyFatPercentage = value } }
-        hkManager.fetchLeanBodyMass { value in DispatchQueue.main.async { self.leanBodyMass = value } }
-        
-        // Hearing
-        hkManager.fetchEnvironmentalSoundLevel { value in DispatchQueue.main.async { self.environmentalSoundLevels = value } }
-        hkManager.fetchHeadphoneAudioLevel { value in DispatchQueue.main.async { self.headphoneAudioLevels = value } }
-        
-        // Heart
-        hkManager.fetchCurrentHeartRate { value in DispatchQueue.main.async { self.currentHeartRate = value } }
-        hkManager.fetchRestingHeartRate { value in DispatchQueue.main.async { self.restingHeartRate = value } }
-        hkManager.fetchHeartRateVariability { value in DispatchQueue.main.async { self.heartRateVariability = value } }
-        hkManager.fetchCardioFitness { value in DispatchQueue.main.async { self.cardioFitness = value } }
-        
-        // Sleep
-        hkManager.fetchSleepHours { value in DispatchQueue.main.async { self.sleepHours = value } }
+        // Optionally, you can call individual fetch methods here if needed.
     }
 }
 
@@ -131,7 +121,6 @@ struct HealthDataView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                
                 // Basic Metrics
                 Group {
                     Text("Basic Metrics")
@@ -259,11 +248,6 @@ struct HealthDataView: View {
                         Text(viewModel.currentHeartRate != nil ? "\(Int(viewModel.currentHeartRate!)) BPM" : "N/A")
                     }
                     HStack {
-                        Text("Walking Heart Rate Average:")
-                        Spacer()
-                        Text("N/A")
-                    }
-                    HStack {
                         Text("Resting Heart Rate:")
                         Spacer()
                         Text(viewModel.restingHeartRate != nil ? "\(Int(viewModel.restingHeartRate!)) BPM" : "N/A")
@@ -293,16 +277,8 @@ struct HealthDataView: View {
                         Text(viewModel.sleepHours != nil ? "\(viewModel.sleepHours!) hrs" : "N/A")
                     }
                 }
-                
-                Button("Fetch All Data") {
-                    viewModel.fetchAllMetrics()
-                }
-                .padding()
             }
             .padding()
-        }
-        .onAppear {
-            viewModel.fetchBasicMetrics()
         }
         .navigationTitle("HealthKit Data")
     }
