@@ -1,14 +1,24 @@
-# from ucimlrepo import fetch_ucirepo
+import pandas as pd
 import numpy as np
 from numpy.linalg import inv
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import StandardScaler
 
 # Constants
 MAX_ORDER = 3
 REG = 0.0001
 TRAIN_SIZE = 0.2
+
+
+def remove_outliers(data, column):
+    Q1 = data[column].quantile(0.25)
+    Q3 = data[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    return data[(data[column] >= lower_bound) & (data[column] <= upper_bound)]
 
 
 def create_p_list(x, max_order):
@@ -71,12 +81,25 @@ def test_diabetes_prediction():
     data = dataset[:, 1:]
     target = dataset[:, 0]
 
-    # # fetch dataset
-    # cdc_diabetes_health_indicators = fetch_ucirepo(id=891)
+    # Convert features to a pandas DataFrame with generated column names
+    df = pd.DataFrame(data, columns=[f'feature_{i}' for i in range(data.shape[1])])
 
-    # # data (as pandas dataframes)
-    # data = cdc_diabetes_health_indicators.data.features.to_numpy()
-    # target = cdc_diabetes_health_indicators.data.targets.to_numpy()
+    # Identify all numeric columns in the DataFrame
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+
+    # Apply outlier removal for each feature column iteratively
+    for col in numeric_cols:
+        df = remove_outliers(df, col)
+
+    # Filter the target array to include only rows corresponding to the remaining data
+    target = target[df.index]
+
+    # Scale all numeric columns using StandardScaler
+    scaler = StandardScaler()
+    df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
+
+    # Convert the cleaned and scaled DataFrame back to a NumPy array
+    data = df.to_numpy()
 
     X_train, X_test, y_train, y_test = train_test_split(
         data, target, random_state=1, train_size=TRAIN_SIZE
