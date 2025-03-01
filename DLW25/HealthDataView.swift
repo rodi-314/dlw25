@@ -260,275 +260,305 @@ struct HealthDataView: View {
                         } else {
                             Text("No prediction yet")
                         }
+                        
+                        Form {
+                            // Daily Summary Section
+                            Section(header: Text("Daily Summary").font(.headline)) {
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text("🌟 Daily Summary")
+                                        .font(.headline)
+                                        .bold()
+                                        .foregroundColor(.white)
+                                    
+                                    Text("summaryText")
+                                        .font(.body)
+                                        .foregroundColor(.white)
+                                        .lineLimit(nil)
+                                        .multilineTextAlignment(.leading)
+                                }
+                                .padding()
+                                .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .cornerRadius(0)
+                                .shadow(radius: 0)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity) // 👈 Makes VStack fill available space
+                            }
+                            
+                            // Basic Metrics Section
+                            Section(header: Text("Basic Metrics").font(.headline)) {
+                                HStack {
+                                    Text("Age")
+                                    Spacer()
+                                    Text(viewModel.age != nil ? "\(viewModel.age!)" : "N/A")
+                                }
+                                
+                                // Basic Metrics Section
+                                Section(header: Text("Basic Metrics").font(.headline)) {
+                                    HStack {
+                                        Text("Age")
+                                        Spacer()
+                                        Text(viewModel.age != nil ? "\(viewModel.age!)" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Sex")
+                                        Spacer()
+                                        Text(viewModel.sex)
+                                    }
+                                }
+                                
+                                // Activity Section
+                                Section(header: Text("Activity").font(.headline)) {
+                                    HStack {
+                                        Text("Resting Energy")
+                                        Spacer()
+                                        Text(viewModel.restingEnergy != nil ? "\(viewModel.restingEnergy!, specifier: "%.0f") kcal" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Active Energy")
+                                        Spacer()
+                                        Text(viewModel.activeEnergy != nil ? "\(viewModel.activeEnergy!, specifier: "%.0f") kcal" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Exercise Minutes")
+                                        Spacer()
+                                        Text(viewModel.exerciseMinutes != nil ? "\(viewModel.exerciseMinutes!, specifier: "%.0f") min" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Steps")
+                                        Spacer()
+                                        Text(viewModel.steps != nil ? "\(Int(viewModel.steps!))" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Walking + Running Distance")
+                                        Spacer()
+                                        Text(viewModel.walkingRunningDistance != nil ? "\(viewModel.walkingRunningDistance!, specifier: "%.0f") m" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Flights Climbed")
+                                        Spacer()
+                                        Text(viewModel.flightsClimbed != nil ? "\(Int(viewModel.flightsClimbed!))" : "N/A")
+                                    }
+                                }
+                                
+                                // Body Measurements Section
+                                Section(header: Text("Body Measurements").font(.headline)) {
+                                    HStack {
+                                        Text("Body Temperature")
+                                        Spacer()
+                                        Text(viewModel.bodyTemperature != nil ? "\(viewModel.bodyTemperature!, specifier: "%.1f") °C" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Weight")
+                                        Spacer()
+                                        Text(viewModel.weight != nil ? "\(viewModel.weight!, specifier: "%.1f") kg" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Height")
+                                        Spacer()
+                                        Text(viewModel.height != nil ? "\(viewModel.height!, specifier: "%.2f") m" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("BMI")
+                                        Spacer()
+                                        Text(viewModel.bmi != nil ? "\(viewModel.bmi!, specifier: "%.1f")" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Body Fat %")
+                                        Spacer()
+                                        Text(viewModel.bodyFatPercentage != nil ? "\(viewModel.bodyFatPercentage! * 100, specifier: "%.1f")%" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Lean Body Mass")
+                                        Spacer()
+                                        Text(viewModel.leanBodyMass != nil ? "\(viewModel.leanBodyMass!, specifier: "%.1f") kg" : "N/A")
+                                    }
+                                }
+                                
+                                // Hearing Section
+                                Section(header: Text("Hearing").font(.headline)) {
+                                    HStack {
+                                        Text("Env. Sound Levels")
+                                        Spacer()
+                                        Text(viewModel.environmentalSoundLevels != nil ? "\(viewModel.environmentalSoundLevels!, specifier: "%.0f") dBA" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Headphone Audio")
+                                        Spacer()
+                                        Text(viewModel.headphoneAudioLevels != nil ? "\(viewModel.headphoneAudioLevels!, specifier: "%.0f") dBA" : "N/A")
+                                    }
+                                }
+                                
+                                // Heart Section
+                                Section(header: Text("Heart").font(.headline)) {
+                                    HStack {
+                                        Text("Current HR")
+                                        Spacer()
+                                        Text(viewModel.currentHeartRate != nil ? "\(Int(viewModel.currentHeartRate!)) BPM" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Resting HR")
+                                        Spacer()
+                                        Text(viewModel.restingHeartRate != nil ? "\(Int(viewModel.restingHeartRate!)) BPM" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("HR Variability")
+                                        Spacer()
+                                        Text(viewModel.heartRateVariability != nil ? "\(viewModel.heartRateVariability!, specifier: "%.0f") ms" : "N/A")
+                                    }
+                                    HStack {
+                                        Text("Cardio Fitness")
+                                        Spacer()
+                                        Text(viewModel.cardioFitness != nil ? "\(viewModel.cardioFitness!, specifier: "%.1f") mL/kg*min" : "N/A")
+                                    }
+                                }
+                                
+                                // Sleep Section
+                                Section(header: Text("Sleep").font(.headline)) {
+                                    HStack {
+                                        Text("Sleep Hours")
+                                        Spacer()
+                                        Text(viewModel.sleepHours != nil ? "\(viewModel.sleepHours!, specifier: "%.1f") hrs" : "N/A")
+                                    }
+                                }
+                                
+                                Section(header: Text("Additional User Inputs").font(.headline)) {
+                                    HStack {
+                                        Text("Blood Pressure")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.bloodPressure, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("High Cholestrol")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.cholestrol, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Cholestrol Check in the last 5 years")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.cholCheck, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Smoker")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.smoke, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Stroke")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.stroke, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Heart Disease")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.heartDiseaseOrAttack, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Physical Activity in the last 30 days")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.physicalActivity, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Eat fruits 1 or more times a day")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.fruits, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Eat veggies 1 or more times a day")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.veggies, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Heavy Drinker")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.alcohol, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Healthcare Coverage")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.healthcare, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Unable to see doctor due to cost")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.noDocCozCost, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("General Health")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.generalHealth, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Mental Health")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.mentalHealth, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Physical Health")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.physicalHealth, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Difficulty walking")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.difficultyWalking, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Education")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.education, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    HStack {
+                                        Text("Income")
+                                        Spacer()
+                                        TextField("Enter Value", value: $viewModel.income, format: .number)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                }
+                            }
+                            .listStyle(GroupedListStyle())
+                        }
                     }
-                    
-                    // Basic Metrics Section
-                    Section(header: Text("Basic Metrics").font(.headline)) {
-                        HStack {
-                            Text("Age")
-                            Spacer()
-                            Text(viewModel.age != nil ? "\(viewModel.age!)" : "N/A")
-                        }
-                        HStack {
-                            Text("Sex")
-                            Spacer()
-                            Text(viewModel.sex)
-                        }
-                    }
-                    
-                    // Activity Section
-                    Section(header: Text("Activity").font(.headline)) {
-                        HStack {
-                            Text("Resting Energy")
-                            Spacer()
-                            Text(viewModel.restingEnergy != nil ? "\(viewModel.restingEnergy!, specifier: "%.0f") kcal" : "N/A")
-                        }
-                        HStack {
-                            Text("Active Energy")
-                            Spacer()
-                            Text(viewModel.activeEnergy != nil ? "\(viewModel.activeEnergy!, specifier: "%.0f") kcal" : "N/A")
-                        }
-                        HStack {
-                            Text("Exercise Minutes")
-                            Spacer()
-                            Text(viewModel.exerciseMinutes != nil ? "\(viewModel.exerciseMinutes!, specifier: "%.0f") min" : "N/A")
-                        }
-                        HStack {
-                            Text("Steps")
-                            Spacer()
-                            Text(viewModel.steps != nil ? "\(Int(viewModel.steps!))" : "N/A")
-                        }
-                        HStack {
-                            Text("Walking + Running Distance")
-                            Spacer()
-                            Text(viewModel.walkingRunningDistance != nil ? "\(viewModel.walkingRunningDistance!, specifier: "%.0f") m" : "N/A")
-                        }
-                        HStack {
-                            Text("Flights Climbed")
-                            Spacer()
-                            Text(viewModel.flightsClimbed != nil ? "\(Int(viewModel.flightsClimbed!))" : "N/A")
-                        }
-                    }
-                    
-                    // Body Measurements Section
-                    Section(header: Text("Body Measurements").font(.headline)) {
-                        HStack {
-                            Text("Body Temperature")
-                            Spacer()
-                            Text(viewModel.bodyTemperature != nil ? "\(viewModel.bodyTemperature!, specifier: "%.1f") °C" : "N/A")
-                        }
-                        HStack {
-                            Text("Weight")
-                            Spacer()
-                            Text(viewModel.weight != nil ? "\(viewModel.weight!, specifier: "%.1f") kg" : "N/A")
-                        }
-                        HStack {
-                            Text("Height")
-                            Spacer()
-                            Text(viewModel.height != nil ? "\(viewModel.height!, specifier: "%.2f") m" : "N/A")
-                        }
-                        HStack {
-                            Text("BMI")
-                            Spacer()
-                            Text(viewModel.bmi != nil ? "\(viewModel.bmi!, specifier: "%.1f")" : "N/A")
-                        }
-                        HStack {
-                            Text("Body Fat %")
-                            Spacer()
-                            Text(viewModel.bodyFatPercentage != nil ? "\(viewModel.bodyFatPercentage! * 100, specifier: "%.1f")%" : "N/A")
-                        }
-                        HStack {
-                            Text("Lean Body Mass")
-                            Spacer()
-                            Text(viewModel.leanBodyMass != nil ? "\(viewModel.leanBodyMass!, specifier: "%.1f") kg" : "N/A")
-                        }
-                    }
-                    
-                    // Hearing Section
-                    Section(header: Text("Hearing").font(.headline)) {
-                        HStack {
-                            Text("Env. Sound Levels")
-                            Spacer()
-                            Text(viewModel.environmentalSoundLevels != nil ? "\(viewModel.environmentalSoundLevels!, specifier: "%.0f") dBA" : "N/A")
-                        }
-                        HStack {
-                            Text("Headphone Audio")
-                            Spacer()
-                            Text(viewModel.headphoneAudioLevels != nil ? "\(viewModel.headphoneAudioLevels!, specifier: "%.0f") dBA" : "N/A")
-                        }
-                    }
-                    
-                    // Heart Section
-                    Section(header: Text("Heart").font(.headline)) {
-                        HStack {
-                            Text("Current HR")
-                            Spacer()
-                            Text(viewModel.currentHeartRate != nil ? "\(Int(viewModel.currentHeartRate!)) BPM" : "N/A")
-                        }
-                        HStack {
-                            Text("Resting HR")
-                            Spacer()
-                            Text(viewModel.restingHeartRate != nil ? "\(Int(viewModel.restingHeartRate!)) BPM" : "N/A")
-                        }
-                        HStack {
-                            Text("HR Variability")
-                            Spacer()
-                            Text(viewModel.heartRateVariability != nil ? "\(viewModel.heartRateVariability!, specifier: "%.0f") ms" : "N/A")
-                        }
-                        HStack {
-                            Text("Cardio Fitness")
-                            Spacer()
-                            Text(viewModel.cardioFitness != nil ? "\(viewModel.cardioFitness!, specifier: "%.1f") mL/kg*min" : "N/A")
-                        }
-                    }
-                    
-                    // Sleep Section
-                    Section(header: Text("Sleep").font(.headline)) {
-                        HStack {
-                            Text("Sleep Hours")
-                            Spacer()
-                            Text(viewModel.sleepHours != nil ? "\(viewModel.sleepHours!, specifier: "%.1f") hrs" : "N/A")
-                        }
-                    }
-                    
-                    Section(header: Text("Additional User Inputs").font(.headline)) {
-                        HStack {
-                            Text("Blood Pressure")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.bloodPressure, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("High Cholestrol")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.cholestrol, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Cholestrol Check in the last 5 years")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.cholCheck, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Smoker")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.smoke, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Stroke")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.stroke, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Heart Disease")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.heartDiseaseOrAttack, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Physical Activity in the last 30 days")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.physicalActivity, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Eat fruits 1 or more times a day")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.fruits, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Eat veggies 1 or more times a day")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.veggies, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Heavy Drinker")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.alcohol, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Healthcare Coverage")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.healthcare, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Unable to see doctor due to cost")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.noDocCozCost, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("General Health")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.generalHealth, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Mental Health")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.mentalHealth, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Physical Health")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.physicalHealth, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Difficulty walking")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.difficultyWalking, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Education")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.education, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        HStack {
-                            Text("Income")
-                            Spacer()
-                            TextField("Enter Value", value: $viewModel.income, format: .number)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                        }
-                    }
+                    .navigationTitle("Welcome to BioWatch")
                 }
-                .listStyle(GroupedListStyle())
+            }
+            
+            struct HealthDataView_Previews: PreviewProvider {
+                static var previews: some View {
+                    HealthDataView()
+                }
             }
         }
-        .navigationTitle("Welcome to BioWatch")
-    }
-}
-
-struct HealthDataView_Previews: PreviewProvider {
-    static var previews: some View {
-        HealthDataView()
-    }
-}

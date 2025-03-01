@@ -1,0 +1,81 @@
+{
+  "Inputs" : {
+    "NoDocbcCost" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Smoker" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "CholCheck" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Stroke" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Fruits" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Sex" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "HeartDiseaseorAttack" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "DiffWalk" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "BMI" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Income" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "HighBP" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "PhysActivity" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Veggies" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Education" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "AnyHealthcare" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "HvyAlcoholConsump" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "Age" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "MentHlth" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "PhysHlth" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "GenHlth" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "HighChol" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "Outputs" : {
+    "Diabetes_012" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "classProbability" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "TrainingInputs" : {
+
+  },
+  "States" : {
+
+  }
+}
