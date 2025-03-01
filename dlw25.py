@@ -30,3 +30,6 @@ print(set(cdc_diabetes_health_indicators.data.targets['Diabetes_binary']))
 # # variable information
 # print(cdc_diabetes_health_indicators.variables)
 
+
+cdc_diabetes_health_indicators = fetch_ucirepo(id=891)
+print(cdc_diabetes_health_indicators.data.targets.to_numpy())

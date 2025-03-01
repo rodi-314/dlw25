@@ -1,4 +1,4 @@
-from ucimlrepo import fetch_ucirepo
+# from ucimlrepo import fetch_ucirepo
 import numpy as np
 from numpy.linalg import inv
 from sklearn.model_selection import train_test_split
@@ -6,7 +6,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import PolynomialFeatures
 
 # Constants
-MAX_ORDER = 1
+MAX_ORDER = 3
 REG = 0.0001
 TRAIN_SIZE = 0.2
 
@@ -67,16 +67,17 @@ def test_diabetes_prediction():
     :error_train_array type: numpy.ndarray
     :error_test_array type: numpy.ndarray
     """
-    data = np.genfromtxt('diabetes.csv', delimiter=',', skip_header=1)
-    print(data[:, 1:])
-    # fetch dataset
-    cdc_diabetes_health_indicators = fetch_ucirepo(id=891)
+    dataset = np.genfromtxt('diabetes.csv', delimiter=',', skip_header=1)
+    data = dataset[:, 1:]
+    target = dataset[:, 0]
 
-    # data (as pandas dataframes)
-    data = cdc_diabetes_health_indicators.data.features.to_numpy()
-    target = cdc_diabetes_health_indicators.data.targets.to_numpy()
+    # # fetch dataset
+    # cdc_diabetes_health_indicators = fetch_ucirepo(id=891)
 
-    # your code goes here
+    # # data (as pandas dataframes)
+    # data = cdc_diabetes_health_indicators.data.features.to_numpy()
+    # target = cdc_diabetes_health_indicators.data.targets.to_numpy()
+
     X_train, X_test, y_train, y_test = train_test_split(
         data, target, random_state=1, train_size=TRAIN_SIZE
     )
@@ -94,8 +95,8 @@ def test_diabetes_prediction():
 
 
 X_train, y_train, X_test, y_test, Ytr, Yts, Ptrain_list, Ptest_list, w_list, error_train_array, error_test_array = test_diabetes_prediction()
-print(w_list)
+# print(w_list)
 print(error_train_array)
 print(error_test_array)
-print(X_train.shape)
-print(np.array([[1, 1, 1, 1, 40, 1, 0, 0, 0, 0, 1, 0, 1, 0, 5, 18, 15, 1, 0, 9, 4, 3]]) @ w_list[0])
+# print(X_train.shape)
+# print(np.array([[1, 1, 1, 1, 40, 1, 0, 0, 0, 0, 1, 0, 1, 0, 5, 18, 15, 1, 0, 9, 4, 3]]) @ w_list[0])
