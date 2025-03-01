@@ -1,6 +1,6 @@
 # BioWatch – Deep Learning Week ‘25
 
-This project was completed for the Deep Learning Week '25 hackathon. For more information, please view the full README [here](BioWatch README.pdf)!
+This project was completed for the Deep Learning Week '25 hackathon. For more information, please view the full README [here]("BioWatch README.pdf")!
 
 ## 1 | Hackathon Problem Statement
 ### Track 1: Healthcare 
