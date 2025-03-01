@@ -416,45 +416,96 @@ class HealthKitManager {
     }
     
     func fetchExerciseMinutes(completion: @escaping (Double?) -> Void) {
-        let query = HKSampleQuery(sampleType: exerciseTimeType, predicate: nil, limit: 1,
-                                  sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]
-        ) { _, results, _ in
-            guard let sample = results?.first as? HKQuantitySample else { completion(nil); return }
-            let minutes = sample.quantity.doubleValue(for: HKUnit.minute())
-            completion(minutes)
+        let calendar = Calendar.current
+        let now = Date()
+        // Query the last 24 hours instead of just today.
+        guard let startDate = calendar.date(byAdding: .day, value: -1, to: now) else {
+            completion(nil)
+            return
+        }
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: exerciseTimeType,
+                                      quantitySamplePredicate: predicate,
+                                      options: .cumulativeSum) { _, result, error in
+            if let error = error {
+                print("Error fetching exercise minutes: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            if let quantity = result?.sumQuantity() {
+                let totalMinutes = quantity.doubleValue(for: HKUnit.minute())
+                print("Total exercise minutes: \(totalMinutes)") // Debug print
+                completion(totalMinutes)
+            } else {
+                print("No exercise minutes data found for the period.")
+                completion(nil)
+            }
         }
         healthStore.execute(query)
     }
     
     func fetchSteps(completion: @escaping (Double?) -> Void) {
-        let query = HKSampleQuery(sampleType: stepCountType, predicate: nil, limit: 1,
-                                  sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]
-        ) { _, results, _ in
-            guard let sample = results?.first as? HKQuantitySample else { completion(nil); return }
-            let steps = sample.quantity.doubleValue(for: HKUnit.count())
-            completion(steps)
+        let calendar = Calendar.current
+        let now = Date()
+        guard let startOfDay = calendar.startOfDay(for: now) as Date? else {
+            completion(nil)
+            return
+        }
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: stepCountType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
+            if let error = error {
+                print("Error fetching steps: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            let totalSteps = result?.sumQuantity()?.doubleValue(for: HKUnit.count())
+            completion(totalSteps)
         }
         healthStore.execute(query)
     }
     
     func fetchWalkingRunningDistance(completion: @escaping (Double?) -> Void) {
-        let query = HKSampleQuery(sampleType: distanceWalkingRunningType, predicate: nil, limit: 1,
-                                  sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]
-        ) { _, results, _ in
-            guard let sample = results?.first as? HKQuantitySample else { completion(nil); return }
-            let distance = sample.quantity.doubleValue(for: HKUnit.meter())
-            completion(distance)
+        let calendar = Calendar.current
+        let now = Date()
+        guard let startOfDay = calendar.startOfDay(for: now) as Date? else {
+            completion(nil)
+            return
+        }
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: distanceWalkingRunningType,
+                                      quantitySamplePredicate: predicate,
+                                      options: .cumulativeSum) { _, result, error in
+            if let error = error {
+                print("Error fetching walking + running distance: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            let totalDistance = result?.sumQuantity()?.doubleValue(for: HKUnit.meter())
+            completion(totalDistance)
         }
         healthStore.execute(query)
     }
     
     func fetchFlightsClimbed(completion: @escaping (Double?) -> Void) {
-        let query = HKSampleQuery(sampleType: flightsClimbedType, predicate: nil, limit: 1,
-                                  sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]
-        ) { _, results, _ in
-            guard let sample = results?.first as? HKQuantitySample else { completion(nil); return }
-            let flights = sample.quantity.doubleValue(for: HKUnit.count())
-            completion(flights)
+        let calendar = Calendar.current
+        let now = Date()
+        guard let startOfDay = calendar.startOfDay(for: now) as Date? else {
+            completion(nil)
+            return
+        }
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: flightsClimbedType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
+            if let error = error {
+                print("Error fetching flights climbed: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            let totalFlights = result?.sumQuantity()?.doubleValue(for: HKUnit.count())
+            completion(totalFlights)
         }
         healthStore.execute(query)
     }
@@ -591,13 +642,51 @@ class HealthKitManager {
     }
     
     func fetchSleepHours(completion: @escaping (Double?) -> Void) {
-        let query = HKSampleQuery(sampleType: sleepType, predicate: nil, limit: 1,
-                                  sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
-        ) { _, results, _ in
-            guard let sample = results?.first as? HKCategorySample else { completion(nil); return }
-            let sleepDuration = sample.endDate.timeIntervalSince(sample.startDate) / 3600.0
-            completion(sleepDuration)
+        let calendar = Calendar.current
+        let now = Date()
+        // Extend time range to past 72 hours to capture sleep sessions that span midnight.
+        guard let startDate = calendar.date(byAdding: .day, value: -3, to: now) else {
+            completion(nil)
+            return
         }
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { _, results, error in
+            if let error = error {
+                print("Error fetching sleep hours: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            guard let samples = results as? [HKCategorySample] else {
+                print("No sleep samples found")
+                completion(nil)
+                return
+            }
+            
+            print("Found \(samples.count) sleep samples")
+            // Print out sample values for debugging
+            for sample in samples {
+                print("Sleep sample: start \(sample.startDate), end \(sample.endDate), value \(sample.value)")
+            }
+            
+            // Filter for samples that represent sleep.
+            // Try including both asleepUnspecified and inBed to see if that returns data.
+            let sleepSamples = samples.filter { sample in
+                sample.value == HKCategoryValueSleepAnalysis.asleepUnspecified.rawValue ||
+                sample.value == HKCategoryValueSleepAnalysis.inBed.rawValue
+            }
+            print("Filtered sleep samples count: \(sleepSamples.count)")
+            
+            let totalSleepSeconds = sleepSamples.reduce(0) { sum, sample in
+                sum + sample.endDate.timeIntervalSince(sample.startDate)
+            }
+            let totalSleepHours = totalSleepSeconds / 3600.0
+            print("Total sleep hours: \(totalSleepHours)")
+            
+            completion(totalSleepHours > 0 ? totalSleepHours : nil)
+        }
+        
         healthStore.execute(query)
     }
 }
