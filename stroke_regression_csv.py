@@ -79,29 +79,47 @@ def test_diabetes_prediction():
     :train_score type: numpy.ndarray
     :test_score type: numpy.ndarray
     """
-    dataset = np.genfromtxt('stroke.csv', delimiter=',', skip_header=1)
-    data = dataset[:, :10]
-    target = dataset[:, 11]
+    df = pd.read_csv("stroke.csv")
+    # Display the first few rows
+    print(df.head())
 
-    # Convert features to a pandas DataFrame with generated column names
-    df = pd.DataFrame(data, columns=[f'feature_{i}' for i in range(data.shape[1])])
+    # Show dataset info
+    print(df.info())
+
+    # Show missing values
+    print(df.isnull().sum())
+
+    df.drop(columns=["id"], inplace=True) 
+    df.drop(columns=["ever_married"], inplace=True)
+    df.drop(columns=["work_type"], inplace=True)
+    df.drop(columns=["Residence_type"], inplace=True)
+    df.drop(columns=["smoking_status"], inplace=True)
+
+    df['gender'] = df['gender'].map({"Female": 0, "Male": 1})
+    df = df.dropna()
+
+    # Separate features (X) and target (y)
+    X = df.drop(columns=["stroke"])  # Features
+    y = df["stroke"]  # Target
 
     # Identify all numeric columns in the DataFrame
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    numeric_cols = X.select_dtypes(include=[np.number]).columns
 
     # Apply outlier removal for each feature column iteratively
     for col in numeric_cols:
-        df = remove_outliers(df, col)
+        X = remove_outliers(X, col)
 
     # Filter the target array to include only rows corresponding to the remaining data
-    target = target[df.index]
+    target = y[X.index]
 
     # Scale all numeric columns using StandardScaler
     scaler = StandardScaler()
-    df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
+    X[numeric_cols] = scaler.fit_transform(X[numeric_cols])
 
     # Convert the cleaned and scaled DataFrame back to a NumPy array
-    data = df.to_numpy()
+    data = X.to_numpy()
+    target = target.to_numpy()
+
 
     X_train, X_test, y_train, y_test = train_test_split(
         data, target, random_state=N, train_size=TRAIN_SIZE
@@ -124,5 +142,5 @@ print(train_score)
 print(test_score)
 
 # Test
-print(w_list)
-print(np.array([[45, 1, 0, 120, 29, 1]]) @ w_list[0])
+#print(w_list)
+print(np.array([[1, 45, 1, 0, 120, 29, 1]]) @ w_list[0])
