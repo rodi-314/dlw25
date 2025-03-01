@@ -22,6 +22,18 @@ Currently, users do not have access to early detection and warnings as well as p
 
 Leveraging on the myriad of data that smartwatches provide to users, we aim to create an iOS app with an accompanying watchOS app that provides data analysis for early disease prediction. The app will display early warnings to users and preventive measures they can take to combat these illnesses. Deep learning algorithms will be used to analyse past patient data and create a model that associates anomalous patient vitals with early disease symptoms. This model will then be run on real-time user data, analysing their historical body vitals and comparing it with their current body vitals, to determine whether there are anomalies corresponding to specific diseases.
 
+## 3 | Model Performance
+
+| Dataset         | Regression                     | Random Forest       | Deep Learning (ANN) |
+|---------------|--------------------------------|---------------------|----------------------|
+| Diabetes       | 91.6% (Order 2 Ridge) <br> 92.3% (Logistics) | 90.4% - 91.8%       | 92.7%                |
+| Stroke         | 97.7%                          | 95.1%               | 100%                 |
+| Heart Disease | 83%                            | 85%                 | 50%                  |
+| Sleep Disorder | 86%                            | 87%                 | 85%                  |
+
+
 ![image_2025-03-02_02-14-32](https://github.com/user-attachments/assets/7d65b921-411d-4bc3-8804-3444f4d23aec)
+
+![image](https://github.com/user-attachments/assets/13fb4b1b-5073-4fdb-831b-0e85cbbb4b5a)
 
 
