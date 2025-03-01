@@ -10,6 +10,16 @@ from sklearn.preprocessing import StandardScaler
 MAX_ORDER = 3
 REG = 0.0001
 TRAIN_SIZE = 0.2
+N = np.random.randint(100)
+
+
+def remove_outliers(data, column):
+    Q1 = data[column].quantile(0.25)
+    Q3 = data[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    return data[(data[column] >= lower_bound) & (data[column] <= upper_bound)]
 
 
 def remove_outliers(data, column):
@@ -41,7 +51,7 @@ def create_w_list(p_list, y, reg):
     return w_list
 
 
-def create_error_array(p_list, w_list, y):
+def create_score_array(p_list, w_list, y):
     error_array = []
     for p, w in zip(p_list, w_list):
         y_new = p @ w
@@ -65,17 +75,9 @@ def test_diabetes_prediction():
     :N type: int
 
     Return type
-    :X_train type: numpy.ndarray of size (number_of_training_samples, 4)
-    :y_train type: numpy.ndarray of size (number_of_training_samples,)
-    :X_test type: numpy.ndarray of size (number_of_test_samples, 4)
-    :y_test type: numpy.ndarray of size (number_of_test_samples,)
-    :Ytr type: numpy.ndarray of size (number_of_training_samples, 3)
-    :Yts type: numpy.ndarray of size (number_of_test_samples, 3)
-    :Ptrain_list type: List[numpy.ndarray]
-    :Ptest_list type: List[numpy.ndarray]
     :w_list type: List[numpy.ndarray]
-    :error_train_array type: numpy.ndarray
-    :error_test_array type: numpy.ndarray
+    :train_score type: numpy.ndarray
+    :test_score type: numpy.ndarray
     """
     dataset = np.genfromtxt('diabetes.csv', delimiter=',', skip_header=1)
     data = dataset[:, 1:]
@@ -102,7 +104,7 @@ def test_diabetes_prediction():
     data = df.to_numpy()
 
     X_train, X_test, y_train, y_test = train_test_split(
-        data, target, random_state=1, train_size=TRAIN_SIZE
+        data, target, random_state=N, train_size=TRAIN_SIZE
     )
     onehot_encoder = OneHotEncoder(sparse_output=False)
     Ytr = onehot_encoder.fit_transform(y_train.reshape(-1, 1))
@@ -110,16 +112,17 @@ def test_diabetes_prediction():
     Ptrain_list = create_p_list(X_train, MAX_ORDER)
     Ptest_list = create_p_list(X_test, MAX_ORDER)
     w_list = create_w_list(Ptrain_list, Ytr, REG)
-    error_train_array = create_error_array(Ptrain_list, w_list, Ytr)
-    error_test_array = create_error_array(Ptest_list, w_list, Yts)
+    train_score = create_score_array(Ptrain_list, w_list, Ytr)
+    test_score = create_score_array(Ptest_list, w_list, Yts)
 
     # return in this order
-    return X_train, y_train, X_test, y_test, Ytr, Yts, Ptrain_list, Ptest_list, w_list, error_train_array, error_test_array
+    return w_list, train_score, test_score
 
 
-X_train, y_train, X_test, y_test, Ytr, Yts, Ptrain_list, Ptest_list, w_list, error_train_array, error_test_array = test_diabetes_prediction()
+w_list, train_score, test_score = test_diabetes_prediction()
+print(train_score)
+print(test_score)
+
+# Test
 # print(w_list)
-print(error_train_array)
-print(error_test_array)
-# print(X_train.shape)
 # print(np.array([[1, 1, 1, 1, 40, 1, 0, 0, 0, 0, 1, 0, 1, 0, 5, 18, 15, 1, 0, 9, 4, 3]]) @ w_list[0])
