@@ -11,7 +11,7 @@ import SwiftUI
 struct DLW25App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HealthDataView()
         }
     }
 }
