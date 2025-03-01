@@ -1,6 +1,6 @@
 # BioWatch – Deep Learning Week ‘25
 
-Submission for Deep Learning Week '25
+This project was completed for the Deep Learning Week '25 hackathon. For more information, please view the full README [here](BioWatch README.pdf)!
 
 ## 1 | Hackathon Problem Statement
 ### Track 1: Healthcare 
@@ -21,4 +21,7 @@ Currently, users do not have access to early detection and warnings as well as p
 ### Proposed Solution
 
 Leveraging on the myriad of data that smartwatches provide to users, we aim to create an iOS app with an accompanying watchOS app that provides data analysis for early disease prediction. The app will display early warnings to users and preventive measures they can take to combat these illnesses. Deep learning algorithms will be used to analyse past patient data and create a model that associates anomalous patient vitals with early disease symptoms. This model will then be run on real-time user data, analysing their historical body vitals and comparing it with their current body vitals, to determine whether there are anomalies corresponding to specific diseases.
+
+![image_2025-03-02_02-14-32](https://github.com/user-attachments/assets/7d65b921-411d-4bc3-8804-3444f4d23aec)
+
 
