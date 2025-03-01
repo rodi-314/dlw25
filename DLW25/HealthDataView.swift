@@ -8,6 +8,8 @@
 import SwiftUI
 import HealthKit
 
+// MARK: - View Model
+
 class HealthDataViewModel: ObservableObject {
     // Basic Metrics
     @Published var age: Int?
@@ -100,7 +102,7 @@ class HealthDataViewModel: ObservableObject {
     }
     
     func fetchAllMetrics() {
-        // Optionally, you can call individual fetch methods here if needed.
+        // Optionally, you can call individual fetch methods here for an initial refresh.
     }
 }
 
@@ -115,170 +117,144 @@ extension HKBiologicalSex {
     }
 }
 
+// MARK: - View
+
 struct HealthDataView: View {
     @ObservedObject var viewModel = HealthDataViewModel()
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Basic Metrics
-                Group {
-                    Text("Basic Metrics")
-                        .font(.title2)
-                        .padding(.bottom, 5)
+        NavigationView {
+            Form {
+                // Basic Metrics Section
+                Section(header: Text("Basic Metrics").font(.headline)) {
                     HStack {
-                        Text("Age:")
+                        Text("Age")
                         Spacer()
                         Text(viewModel.age != nil ? "\(viewModel.age!)" : "N/A")
                     }
                     HStack {
-                        Text("Sex:")
+                        Text("Sex")
                         Spacer()
                         Text(viewModel.sex)
                     }
                 }
                 
-                Divider()
-                
-                // Activity
-                Group {
-                    Text("Activity")
-                        .font(.title2)
-                        .padding(.bottom, 5)
+                // Activity Section
+                Section(header: Text("Activity").font(.headline)) {
                     HStack {
-                        Text("Resting Energy:")
+                        Text("Resting Energy")
                         Spacer()
-                        Text(viewModel.restingEnergy != nil ? "\(viewModel.restingEnergy!) kcal" : "N/A")
+                        Text(viewModel.restingEnergy != nil ? "\(viewModel.restingEnergy!, specifier: "%.0f") kcal" : "N/A")
                     }
                     HStack {
-                        Text("Active Energy:")
+                        Text("Active Energy")
                         Spacer()
-                        Text(viewModel.activeEnergy != nil ? "\(viewModel.activeEnergy!) kcal" : "N/A")
+                        Text(viewModel.activeEnergy != nil ? "\(viewModel.activeEnergy!, specifier: "%.0f") kcal" : "N/A")
                     }
                     HStack {
-                        Text("Exercise Minutes:")
+                        Text("Exercise Minutes")
                         Spacer()
-                        Text(viewModel.exerciseMinutes != nil ? "\(viewModel.exerciseMinutes!) min" : "N/A")
+                        Text(viewModel.exerciseMinutes != nil ? "\(viewModel.exerciseMinutes!, specifier: "%.0f") min" : "N/A")
                     }
                     HStack {
-                        Text("Steps:")
+                        Text("Steps")
                         Spacer()
                         Text(viewModel.steps != nil ? "\(Int(viewModel.steps!))" : "N/A")
                     }
                     HStack {
-                        Text("Walking + Running Distance:")
+                        Text("Walking + Running Distance")
                         Spacer()
-                        Text(viewModel.walkingRunningDistance != nil ? "\(viewModel.walkingRunningDistance!) m" : "N/A")
+                        Text(viewModel.walkingRunningDistance != nil ? "\(viewModel.walkingRunningDistance!, specifier: "%.0f") m" : "N/A")
                     }
                     HStack {
-                        Text("Flights Climbed:")
+                        Text("Flights Climbed")
                         Spacer()
                         Text(viewModel.flightsClimbed != nil ? "\(Int(viewModel.flightsClimbed!))" : "N/A")
                     }
                 }
                 
-                Divider()
-                
-                // Body Measurements
-                Group {
-                    Text("Body Measurements")
-                        .font(.title2)
-                        .padding(.bottom, 5)
+                // Body Measurements Section
+                Section(header: Text("Body Measurements").font(.headline)) {
                     HStack {
-                        Text("Body Temperature:")
+                        Text("Body Temperature")
                         Spacer()
                         Text(viewModel.bodyTemperature != nil ? "\(viewModel.bodyTemperature!, specifier: "%.1f") °C" : "N/A")
                     }
                     HStack {
-                        Text("Weight:")
+                        Text("Weight")
                         Spacer()
-                        Text(viewModel.weight != nil ? "\(viewModel.weight!) kg" : "N/A")
+                        Text(viewModel.weight != nil ? "\(viewModel.weight!, specifier: "%.1f") kg" : "N/A")
                     }
                     HStack {
-                        Text("Height:")
+                        Text("Height")
                         Spacer()
-                        Text(viewModel.height != nil ? "\(viewModel.height!) m" : "N/A")
+                        Text(viewModel.height != nil ? "\(viewModel.height!, specifier: "%.2f") m" : "N/A")
                     }
                     HStack {
-                        Text("BMI:")
+                        Text("BMI")
                         Spacer()
-                        Text(viewModel.bmi != nil ? "\(viewModel.bmi!)" : "N/A")
+                        Text(viewModel.bmi != nil ? "\(viewModel.bmi!, specifier: "%.1f")" : "N/A")
                     }
                     HStack {
-                        Text("Body Fat Percentage:")
+                        Text("Body Fat %")
                         Spacer()
-                        Text(viewModel.bodyFatPercentage != nil ? "\(viewModel.bodyFatPercentage! * 100)%" : "N/A")
+                        Text(viewModel.bodyFatPercentage != nil ? "\(viewModel.bodyFatPercentage! * 100, specifier: "%.1f")%" : "N/A")
                     }
                     HStack {
-                        Text("Lean Body Mass:")
+                        Text("Lean Body Mass")
                         Spacer()
-                        Text(viewModel.leanBodyMass != nil ? "\(viewModel.leanBodyMass!) kg" : "N/A")
-                    }
-                }
-                
-                Divider()
-                
-                // Hearing
-                Group {
-                    Text("Hearing")
-                        .font(.title2)
-                        .padding(.bottom, 5)
-                    HStack {
-                        Text("Environmental Sound Levels:")
-                        Spacer()
-                        Text(viewModel.environmentalSoundLevels != nil ? "\(viewModel.environmentalSoundLevels!) dBA" : "N/A")
-                    }
-                    HStack {
-                        Text("Headphone Audio Levels:")
-                        Spacer()
-                        Text(viewModel.headphoneAudioLevels != nil ? "\(viewModel.headphoneAudioLevels!) dBA" : "N/A")
+                        Text(viewModel.leanBodyMass != nil ? "\(viewModel.leanBodyMass!, specifier: "%.1f") kg" : "N/A")
                     }
                 }
                 
-                Divider()
-                
-                // Heart
-                Group {
-                    Text("Heart")
-                        .font(.title2)
-                        .padding(.bottom, 5)
+                // Hearing Section
+                Section(header: Text("Hearing").font(.headline)) {
                     HStack {
-                        Text("Current Heart Rate:")
+                        Text("Env. Sound Levels")
+                        Spacer()
+                        Text(viewModel.environmentalSoundLevels != nil ? "\(viewModel.environmentalSoundLevels!, specifier: "%.0f") dBA" : "N/A")
+                    }
+                    HStack {
+                        Text("Headphone Audio")
+                        Spacer()
+                        Text(viewModel.headphoneAudioLevels != nil ? "\(viewModel.headphoneAudioLevels!, specifier: "%.0f") dBA" : "N/A")
+                    }
+                }
+                
+                // Heart Section
+                Section(header: Text("Heart").font(.headline)) {
+                    HStack {
+                        Text("Current HR")
                         Spacer()
                         Text(viewModel.currentHeartRate != nil ? "\(Int(viewModel.currentHeartRate!)) BPM" : "N/A")
                     }
                     HStack {
-                        Text("Resting Heart Rate:")
+                        Text("Resting HR")
                         Spacer()
                         Text(viewModel.restingHeartRate != nil ? "\(Int(viewModel.restingHeartRate!)) BPM" : "N/A")
                     }
                     HStack {
-                        Text("Heart Rate Variability:")
+                        Text("HR Variability")
                         Spacer()
-                        Text(viewModel.heartRateVariability != nil ? "\(viewModel.heartRateVariability!) ms" : "N/A")
+                        Text(viewModel.heartRateVariability != nil ? "\(viewModel.heartRateVariability!, specifier: "%.0f") ms" : "N/A")
                     }
                     HStack {
-                        Text("Cardio Fitness:")
+                        Text("Cardio Fitness")
                         Spacer()
-                        Text(viewModel.cardioFitness != nil ? "\(viewModel.cardioFitness!) mL/kg*min" : "N/A")
+                        Text(viewModel.cardioFitness != nil ? "\(viewModel.cardioFitness!, specifier: "%.1f") mL/kg*min" : "N/A")
                     }
                 }
                 
-                Divider()
-                
-                // Sleep
-                Group {
-                    Text("Sleep")
-                        .font(.title2)
-                        .padding(.bottom, 5)
+                // Sleep Section
+                Section(header: Text("Sleep").font(.headline)) {
                     HStack {
-                        Text("Sleep Hours:")
+                        Text("Sleep Hours")
                         Spacer()
-                        Text(viewModel.sleepHours != nil ? "\(viewModel.sleepHours!) hrs" : "N/A")
+                        Text(viewModel.sleepHours != nil ? "\(viewModel.sleepHours!, specifier: "%.1f") hrs" : "N/A")
                     }
                 }
             }
-            .padding()
+            .listStyle(GroupedListStyle())
         }
         .navigationTitle("HealthKit Data")
     }
@@ -286,6 +262,6 @@ struct HealthDataView: View {
 
 struct HealthDataView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView { HealthDataView() }
+        HealthDataView()
     }
 }
