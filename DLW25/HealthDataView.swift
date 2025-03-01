@@ -125,6 +125,27 @@ struct HealthDataView: View {
     var body: some View {
         NavigationView {
             Form {
+                // Daily Summary Section
+                Section(header: Text("Daily Summary").font(.headline)) {
+                    VStack(alignment: .leading, spacing: 10) {
+                                Text("🌟 Daily Summary")
+                                    .font(.headline)
+                                    .bold()
+                                    .foregroundColor(.white)
+                                
+                                Text("summaryText")
+                                    .font(.body)
+                                    .foregroundColor(.white)
+                                    .lineLimit(nil)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .padding()
+                            .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .cornerRadius(0)
+                            .shadow(radius: 0)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity) // 👈 Makes VStack fill available space
+                }
+
                 // Basic Metrics Section
                 Section(header: Text("Basic Metrics").font(.headline)) {
                     HStack {

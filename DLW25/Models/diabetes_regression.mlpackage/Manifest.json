@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "A025E5E7-32CF-4813-8507-C535EBC329F7": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        },
+        "AD7E8352-4A0C-4A1E-92ED-0DB3E66D4245": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "diabetes_regression.mlmodel",
+            "path": "com.apple.CoreML/diabetes_regression.mlmodel"
+        },
+        "FFA3489B-5EBB-439E-AAB2-354AD6C379E1": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        }
+    },
+    "rootModelIdentifier": "AD7E8352-4A0C-4A1E-92ED-0DB3E66D4245"
+}
