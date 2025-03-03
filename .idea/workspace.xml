@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b9c96fb-2e94-4a0a-b75f-e4ee19a569d7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLW25/Diabetes Prediction.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLW25/ModelInput.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLW25/Models/diabetes_regression.mlpackage/Data/com.apple.CoreML/FeatureDescriptions.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLW25/Models/diabetes_regression.mlpackage/Data/com.apple.CoreML/Metadata.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLW25/Models/diabetes_regression.mlpackage/Data/com.apple.CoreML/diabetes_regression.mlmodel" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLW25/Models/diabetes_regression.mlpackage/Manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DLW25.xcodeproj/project.xcworkspace/xcuserdata/roderickkong.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/DLW25.xcodeproj/project.xcworkspace/xcuserdata/roderickkong.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLW25/HealthDataView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/DLW25/HealthDataView.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
